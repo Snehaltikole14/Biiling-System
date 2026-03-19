@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dr Vehicle Care Billing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #eef2f7;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px;
+        }
+
+        .header {
+            text-align: center;
+            background: linear-gradient(45deg, #c40000, #ff4d4d);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .section {
+            background: white;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        input {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .item {
+            border: 1px solid #ddd;
+            padding: 12px;
+            border-radius: 8px;
+            background: #fafafa;
+        }
+
+        .item-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .qty,
+        .price {
+            width: 80px;
+        }
+
+        button {
+            padding: 10px;
+            border: none;
+            background: #c40000;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #a30000;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* BILL */
+        .bill {
+            width: 320px;
+            margin: 20px auto;
+            background: white;
+            padding: 12px;
+            border: 1px dashed black;
+            font-size: 14px;
+        }
+
+        .bill h2 {
+            text-align: center;
+            margin: 5px 0;
+        }
+
+        .bill table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .bill td,
+        .bill th {
+            border-bottom: 1px dashed black;
+            padding: 4px;
+            word-break: break-word;
+        }
+
+        .total {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: green;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* PRINT FIX */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #billArea,
+            #billArea * {
+                visibility: visible;
+            }
+
+            #billArea {
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                top: 0;
+                width: 80mm;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="header">
+            <h2>DR VEHICLE CARE</h2>
+            <p>Bike Service Center | Hadapsar, Pune</p>
+        </div>
+
+        <div class="section">
+            <h3>Customer Details</h3>
+            <div class="grid">
+                <input id="customerName" placeholder="Customer Name">
+                <input id="mobile" placeholder="Mobile Number">
+                <input id="bikeNumber" placeholder="Bike Number">
+                <input id="bikeKm" placeholder="Bike KM">
+                <input id="customerAddress" placeholder="Address">
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Services & Parts</h3>
+            <div id="itemsList" class="items"></div>
+
+            <h4>Add Custom Item</h4>
+            <div class="grid">
+                <input id="customName" placeholder="Item Name">
+                <input id="customPrice" type="number" placeholder="Price">
+                <button onclick="addCustomItem()">Add Item</button>
+            </div>
+        </div>
+
+        <div class="section actions">
+            <button onclick="printBill()">Print Bill</button>
+            <button onclick="downloadExcel()">Download Excel</button>
+        </div>
+
+        <!-- BILL -->
+        <div id="billArea" class="bill">
+            <h2>DR VEHICLE CARE</h2>
+            <p style="text-align:center;margin:0;">Bike Service Center</p>
+            <p style="text-align:center;margin:0;">Daund, Pune</p>
+            <hr>
+
+            <p>
+                Bill No: <span id="billNumber"></span><br>
+                Name: <span id="billCustomer"></span><br>
+                Mobile: <span id="billMobile"></span><br>
+                Bike: <span id="billBike"></span><br>
+                KM: <span id="billKm"></span><br>
+                Date: <span id="billDate"></span>
+            </p>
+
+            <table id="billTable">
+                <tr>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                </tr>
+            </table>
+
+            <p class="total" id="totalAmount">₹0</p>
+        </div>
+
+    </div>
+
+    <script>
+        let items = [
+            { name: "Engine Oil", price: 400 },
+            { name: "Brake Cleaning", price: 150 },
+            { name: "Air Filter", price: 100 },
+            { name: "Spark Plug", price: 80 },
+            { name: "Chain", price: 800 },
+            { name: "Battery", price: 1800 }
+        ];
+
+        let billItems = [];
+        let total = 0;
+        let billCounter = 1;
+
+        function renderItems() {
+            let html = "";
+            items.forEach((item, i) => {
+                html += `
+        <div class="item">
+            <div class="item-top">
+                <span>${item.name}</span>
+            </div>
+
+            Price: <input type="number" id="price${i}" class="price" value="${item.price}">
+            Qty: <input type="number" id="qty${i}" class="qty" value="1" min="1">
+
+            <button onclick="toggleItem(${i})">Add / Update</button>
+        </div>`;
+            });
+            document.getElementById("itemsList").innerHTML = html;
+        }
+
+        function toggleItem(index) {
+            let qty = parseInt(document.getElementById("qty" + index).value);
+            let price = parseInt(document.getElementById("price" + index).value);
+            let item = items[index];
+
+            let existing = billItems.find(b => b.name === item.name);
+
+            if (existing) {
+                existing.qty = qty;
+                existing.total = qty * price;
+                showMessage(item.name + " updated ✅");
+            } else {
+                billItems.push({
+                    name: item.name,
+                    qty: qty,
+                    total: qty * price
+                });
+                showMessage(item.name + " added ✅");
+            }
+
+            renderBill();
+        }
+
+        function showMessage(msg) {
+            let div = document.createElement("div");
+            div.className = "toast";
+            div.innerText = msg;
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 2000);
+        }
+
+        function addCustomItem() {
+            let name = document.getElementById("customName").value;
+            let price = parseInt(document.getElementById("customPrice").value);
+
+            if (!name || !price) {
+                alert("Enter item name and price");
+                return;
+            }
+
+            items.push({ name, price });
+            renderItems();
+        }
+
+        function renderBill() {
+            let table = document.getElementById("billTable");
+            table.innerHTML = "<tr><th>Item</th><th>Qty</th><th>Total</th></tr>";
+            total = 0;
+
+            billItems.forEach(i => {
+                let row = table.insertRow();
+                row.insertCell(0).innerText = i.name;
+                row.insertCell(1).innerText = i.qty;
+                row.insertCell(2).innerText = "₹" + i.total;
+                total += i.total;
+            });
+
+            document.getElementById("totalAmount").innerText = "₹" + total;
+        }
+
+        function generateBill() {
+            document.getElementById("billCustomer").innerText = document.getElementById("customerName").value;
+            document.getElementById("billMobile").innerText = document.getElementById("mobile").value;
+            document.getElementById("billBike").innerText = document.getElementById("bikeNumber").value;
+            document.getElementById("billKm").innerText = document.getElementById("bikeKm").value;
+            document.getElementById("billDate").innerText = new Date().toLocaleDateString();
+            document.getElementById("billNumber").innerText = billCounter++;
+        }
+
+        function printBill() {
+            generateBill();
+            window.print();
+        }
+
+       function downloadExcel() {
+            let name = document.getElementById("customerName").value;
+            let mobile = document.getElementById("mobile").value;
+
+            if (!name || !mobile) {
+                alert("Please enter customer details");
+                return;
+            }
+
+            let csv = "Bill No,Customer Name,Mobile,Item,Qty,Total\n";
+
+            billItems.forEach(i => {
+                csv += `${billCounter},${name},${mobile},${i.name},${i.qty},${i.total}\n`;
+            });
+
+            csv += `,,,,Total,${total}`;
+
+            let blob = new Blob([csv], { type: "text/csv" });
+            let link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = name + "_bill.csv";  // file name with customer name
+            link.click();
+        }
+
+        renderItems();
+    </script>
+
+</body>
+
+</html>
