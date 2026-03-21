@@ -3,357 +3,1103 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Dr Vehicle Care Billing</title>
+    <title>Dr Vehicle Care — Billing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
     <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #eef2f7;
+        :root {
+            --red: #d10000;
+            --red2: #ff3333;
+            --dark: #111;
+            --panel: #1a1a1a;
+            --card: #222;
+            --border: #333;
+            --text: #eee;
+            --muted: #888;
+            --green: #22c55e;
+            --yellow: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
             margin: 0;
+            padding: 0;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 15px;
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
         }
 
+        /* ── HEADER ── */
         .header {
-            text-align: center;
-            background: linear-gradient(45deg, #c40000, #ff4d4d);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, #900 0%, var(--red) 50%, var(--red2) 100%);
+            padding: 18px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 24px rgba(180, 0, 0, .5);
         }
 
-        .section {
-            background: white;
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 10px;
-        }
-
-        input {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
-        .items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        .logo {
+            display: flex;
+            align-items: center;
             gap: 12px;
         }
 
-        .item {
-            border: 1px solid #ddd;
-            padding: 12px;
-            border-radius: 8px;
-            background: #fafafa;
+        .logo-icon {
+            font-size: 28px;
+            filter: drop-shadow(0 0 6px rgba(255, 255, 255, .4));
         }
 
-        .item-top {
-            display: flex;
-            justify-content: space-between;
+        .logo h1 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            line-height: 1;
         }
 
-        .qty,
-        .price {
-            width: 80px;
+        .logo p {
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: .8;
         }
 
-        button {
-            padding: 10px;
-            border: none;
-            background: #c40000;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background: #a30000;
-        }
-
-        .actions {
+        .header-actions {
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
         }
 
-        /* BILL */
-        .bill {
-            width: 320px;
-            margin: 20px auto;
-            background: white;
-            padding: 12px;
-            border: 1px dashed black;
+        .icon-btn {
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .2);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .2s;
+        }
+
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, .25);
+        }
+
+        /* ── CONTAINER ── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 24px 16px;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 20px;
+        }
+
+        @media(max-width:800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── SECTION ── */
+        .section {
+            background: var(--panel);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red2);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── CUSTOMER GRID ── */
+        .cust-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        @media(max-width:500px) {
+            .cust-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .field label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .field input {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border .2s;
+        }
+
+        .field input:focus {
+            border-color: var(--red2);
+        }
+
+        .field input::placeholder {
+            color: #555;
+        }
+
+        /* ── SERVICE GRID ── */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 10px;
+        }
+
+        .svc-card {
+            background: var(--card);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color .2s, transform .15s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .svc-card.active {
+            border-color: var(--red2);
+            background: #2a1010;
+        }
+
+        .svc-card.active::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(211, 0, 0, .08), transparent);
+            pointer-events: none;
+        }
+
+        .svc-name {
+            font-weight: 600;
             font-size: 14px;
         }
 
-        .bill h2 {
-            text-align: center;
-            margin: 5px 0;
+        .svc-inputs {
+            display: flex;
+            gap: 8px;
         }
 
-        .bill table {
+        .svc-inputs input {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            width: 50%;
+            outline: none;
+        }
+
+        .svc-inputs input:focus {
+            border-color: var(--red2);
+        }
+
+        .svc-toggle {
+            border: none;
+            border-radius: 6px;
+            padding: 7px 0;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+            width: 100%;
+        }
+
+        .svc-toggle.add-btn {
+            background: var(--red);
+            color: white;
+        }
+
+        .svc-toggle.add-btn:hover {
+            background: var(--red2);
+        }
+
+        .svc-toggle.rem-btn {
+            background: #1f3a1f;
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        /* ── BILL PANEL ── */
+        .bill-panel {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+
+        .bill-box {
+            background: var(--panel);
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .bill-header {
+            text-align: center;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 14px;
+            margin-bottom: 14px;
+        }
+
+        .bill-shop-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--red2);
+        }
+
+        .bill-sub {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .bill-info {
+            font-size: 13px;
+            color: #bbb;
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+
+        .bill-info span {
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .bill-items-table {
             width: 100%;
             border-collapse: collapse;
+            font-size: 13px;
+            margin-bottom: 10px;
         }
 
-        .bill td,
-        .bill th {
-            border-bottom: 1px dashed black;
-            padding: 4px;
-            word-break: break-word;
+        .bill-items-table th {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: left;
+            padding: 6px 4px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .total {
+        .bill-items-table td {
+            padding: 7px 4px;
+            border-bottom: 1px solid #2a2a2a;
+            color: #ddd;
+        }
+
+        .bill-items-table td:last-child {
             text-align: right;
-            font-weight: bold;
         }
 
-        /* Toast */
+        .bill-empty {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            padding: 20px 0;
+        }
+
+        .bill-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--border);
+            padding-top: 12px;
+            margin-top: 4px;
+        }
+
+        .bill-total-label {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 16px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .bill-total-amount {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--red2);
+        }
+
+        /* ── ACTION BUTTONS ── */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .act-btn {
+            padding: 11px;
+            border: none;
+            border-radius: 9px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: filter .2s, transform .1s;
+        }
+
+        .act-btn:hover {
+            filter: brightness(1.15);
+        }
+
+        .act-btn:active {
+            transform: scale(.97);
+        }
+
+        .btn-print {
+            background: var(--red);
+            color: white;
+            grid-column: span 2;
+        }
+
+        .btn-excel {
+            background: #1a3320;
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .btn-wa {
+            background: #0d2d1a;
+            color: #25d366;
+            border: 1px solid #25d366;
+        }
+
+        .btn-clear {
+            background: #1f1f1f;
+            color: #aaa;
+            border: 1px solid var(--border);
+            grid-column: span 2;
+        }
+
+        /* ── HISTORY DROPDOWN ── */
+        .dropdown-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .dropdown-overlay.open {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 520px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 24px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .modal-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--red2);
+        }
+
+        .close-btn {
+            background: #333;
+            border: none;
+            color: #aaa;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .history-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .h-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .h-bike {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .h-total {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--red2);
+        }
+
+        /* ── TOAST ── */
         .toast {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: green;
-            color: white;
-            padding: 10px;
-            border-radius: 5px;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #1f2f1f;
+            color: var(--green);
+            border: 1px solid var(--green);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+            transition: all .3s;
+            z-index: 999;
+            white-space: nowrap;
         }
 
-        /* PRINT FIX */
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.red {
+            background: #2a1010;
+            color: var(--red2);
+            border-color: var(--red2);
+        }
+
+        /* ── PRINT ── */
         @media print {
             body * {
-                visibility: hidden;
+                visibility: hidden !important;
             }
 
-            #billArea,
-            #billArea * {
-                visibility: visible;
+            #printArea,
+            #printArea * {
+                visibility: visible !important;
             }
 
-            #billArea {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
+            #printArea {
+                position: fixed;
                 top: 0;
+                left: 0;
                 width: 80mm;
-                font-size: 14px;
+                background: white;
+                color: black;
+                padding: 10mm;
+                font-family: monospace;
             }
+        }
+
+        /* scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-
-        <div class="header">
-            <h2>DR VEHICLE CARE</h2>
-            <p>Bike Service Center | Hadapsar, Pune</p>
-        </div>
-
-        <div class="section">
-            <h3>Customer Details</h3>
-            <div class="grid">
-                <input id="customerName" placeholder="Customer Name">
-                <input id="mobile" placeholder="Mobile Number">
-                <input id="bikeNumber" placeholder="Bike Number">
-                <input id="bikeKm" placeholder="Bike KM">
-                <input id="customerAddress" placeholder="Address">
+    <!-- HEADER -->
+    <div class="header">
+        <div class="logo">
+            <span class="logo-icon">🔧</span>
+            <div>
+                <h1>DR VEHICLE CARE</h1>
+                <p>Service &amp; Billing</p>
             </div>
         </div>
-
-        <div class="section">
-            <h3>Services & Parts</h3>
-            <div id="itemsList" class="items"></div>
-
-            <h4>Add Custom Item</h4>
-            <div class="grid">
-                <input id="customName" placeholder="Item Name">
-                <input id="customPrice" type="number" placeholder="Price">
-                <button onclick="addCustomItem()">Add Item</button>
-            </div>
+        <div class="header-actions">
+            <button class="icon-btn" onclick="openHistory('Today')">📋 Today</button>
+            <button class="icon-btn" onclick="openHistory('Yesterday')">📂 Yesterday</button>
+            <button class="icon-btn" onclick="openMonthHistory()">📅 Month</button>
         </div>
-
-        <div class="section actions">
-            <button onclick="printBill()">Print Bill</button>
-            <button onclick="downloadExcel()">Download Excel</button>
-        </div>
-
-        <!-- BILL -->
-        <div id="billArea" class="bill">
-            <h2>DR VEHICLE CARE</h2>
-            <p style="text-align:center;margin:0;">Bike Service Center</p>
-            <p style="text-align:center;margin:0;">Daund, Pune</p>
-            <hr>
-
-            <p>
-                Bill No: <span id="billNumber"></span><br>
-                Name: <span id="billCustomer"></span><br>
-                Mobile: <span id="billMobile"></span><br>
-                Bike: <span id="billBike"></span><br>
-                KM: <span id="billKm"></span><br>
-                Date: <span id="billDate"></span>
-            </p>
-
-            <table id="billTable">
-                <tr>
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Total</th>
-                </tr>
-            </table>
-
-            <p class="total" id="totalAmount">₹0</p>
-        </div>
-
     </div>
 
+    <div class="container">
+        <!-- LEFT COLUMN -->
+        <div>
+            <!-- Customer Details -->
+            <div class="section">
+                <div class="section-title">👤 Customer Details</div>
+                <div class="cust-grid">
+                    <div class="field">
+                        <label>Customer Name</label>
+                        <input id="customerName" placeholder="e.g. Rahul Patil">
+                    </div>
+                    <div class="field">
+                        <label>Mobile Number</label>
+                        <input id="mobile" placeholder="e.g. 9876543210" maxlength="10" type="tel">
+                    </div>
+                    <div class="field">
+                        <label>Bike Number</label>
+                        <input id="bikeNumber" placeholder="e.g. MH09 AB 1234">
+                    </div>
+                    <div class="field">
+                        <label>Odometer (KM)</label>
+                        <input id="bikeKm" placeholder="e.g. 12500" type="number">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services -->
+            <div class="section">
+                <div class="section-title">🛠 Services</div>
+                <div id="servicesGrid" class="services-grid"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT COLUMN — BILL -->
+        <div class="bill-panel">
+            <div class="bill-box">
+                <div class="bill-header">
+                    <div class="bill-shop-name">DR VEHICLE CARE</div>
+                    <div class="bill-sub">Service Invoice</div>
+                </div>
+
+                <div class="bill-info" id="billInfo">
+                    <div>Customer: <span id="bName">—</span></div>
+                    <div>Mobile: <span id="bMobile">—</span></div>
+                    <div>Bike No: <span id="bBike">—</span></div>
+                    <div>KM: <span id="bKm">—</span></div>
+                    <div>Date: <span id="bDate">—</span></div>
+                </div>
+
+                <table class="bill-items-table">
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Qty</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="billBody">
+                        <tr>
+                            <td colspan="3">
+                                <div class="bill-empty">No services added yet</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="bill-total-row">
+                    <span class="bill-total-label">Total</span>
+                    <span class="bill-total-amount" id="billTotal">₹0</span>
+                </div>
+
+                <div class="actions">
+                    <button class="act-btn btn-print" onclick="printBill()">🖨 Print Bill</button>
+                    <button class="act-btn btn-excel" onclick="downloadCSV()">📊 Excel</button>
+                    <button class="act-btn btn-wa" onclick="sendWhatsApp()">💬 WhatsApp</button>
+                    <button class="act-btn btn-clear" onclick="clearAll()">🗑 Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HISTORY MODAL -->
+    <div class="dropdown-overlay" id="historyModal" onclick="closeModal(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title" id="modalTitle">Bills</span>
+                <button class="close-btn"
+                    onclick="document.getElementById('historyModal').classList.remove('open')">✕</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <!-- PRINT AREA (hidden normally) -->
+    <div id="printArea" style="display:none;"></div>
+
     <script>
-        let items = [
+        const services = [
             { name: "Engine Oil", price: 400 },
             { name: "Brake Cleaning", price: 150 },
             { name: "Air Filter", price: 100 },
-            { name: "Spark Plug", price: 80 },
-            { name: "Chain", price: 800 },
-            { name: "Battery", price: 1800 }
+            { name: "Chain Lubrication", price: 80 },
+            { name: "Tyre Check", price: 50 },
+            { name: "Battery Check", price: 60 },
+            { name: "Spark Plug", price: 120 },
+            { name: "Coolant", price: 200 },
+            { name: "Full Service", price: 900 },
+            { name: "Carburettor Cleaning", price: 250 },
+            { name: "Washing", price: 100 },
         ];
 
-        let billItems = [];
-        let total = 0;
-        let billCounter = 1;
+        let cart = {};
+        let customItems = []; // array of {id, label, price, qty}
+        let customIdCounter = 0;
 
-        function renderItems() {
-            let html = "";
-            items.forEach((item, i) => {
-                html += `
-        <div class="item">
-            <div class="item-top">
-                <span>${item.name}</span>
-            </div>
+        function renderServices() {
+            const grid = document.getElementById("servicesGrid");
+            grid.innerHTML = "";
 
-            Price: <input type="number" id="price${i}" class="price" value="${item.price}">
-            Qty: <input type="number" id="qty${i}" class="qty" value="1" min="1">
-
-            <button onclick="toggleItem(${i})">Add / Update</button>
-        </div>`;
+            // Regular services
+            services.forEach((s, i) => {
+                const inCart = !!cart[i];
+                const div = document.createElement("div");
+                div.className = "svc-card" + (inCart ? " active" : "");
+                div.id = "card-" + i;
+                div.innerHTML = `
+      <div class="svc-name">${s.name}</div>
+      <div class="svc-inputs">
+        <input id="price-${i}" type="number" value="${s.price}" placeholder="Price ₹">
+        <input id="qty-${i}" type="number" value="1" min="1" placeholder="Qty">
+      </div>
+      <button class="svc-toggle ${inCart ? 'rem-btn' : 'add-btn'}" onclick="toggleService(${i})">
+        ${inCart ? '✓ Added — Remove' : '+ Add'}
+      </button>
+    `;
+                grid.appendChild(div);
             });
-            document.getElementById("itemsList").innerHTML = html;
-        }
 
-        function toggleItem(index) {
-            let qty = parseInt(document.getElementById("qty" + index).value);
-            let price = parseInt(document.getElementById("price" + index).value);
-            let item = items[index];
+            // Custom work items
+            customItems.forEach(ci => {
+                const div = document.createElement("div");
+                div.className = "svc-card custom-card" + (ci.inCart ? " active" : "");
+                div.id = "custom-card-" + ci.id;
+                div.innerHTML = `
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);font-weight:700;">✏ Custom</span>
+        <button onclick="removeCustomItem(${ci.id})" style="margin-left:auto;background:#2a1010;border:1px solid #aa3333;color:#ff6666;padding:2px 8px;border-radius:5px;font-size:11px;cursor:pointer;">✕ Delete</button>
+      </div>
+      <input id="clabel-${ci.id}" type="text" value="${ci.label}" placeholder="Work description…"
+        style="background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%;"
+        oninput="syncCustomLabel(${ci.id})" onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'">
+      <div class="svc-inputs">
+        <input id="cprice-${ci.id}" type="number" value="${ci.price}" placeholder="Price ₹" oninput="syncCustomCart(${ci.id})">
+        <input id="cqty-${ci.id}" type="number" value="${ci.qty}" min="1" placeholder="Qty" oninput="syncCustomCart(${ci.id})">
+      </div>
+      <button class="svc-toggle ${ci.inCart ? 'rem-btn' : 'add-btn'}" onclick="toggleCustom(${ci.id})">
+        ${ci.inCart ? '✓ Added — Remove' : '+ Add'}
+      </button>
+    `;
+                grid.appendChild(div);
+            });
 
-            let existing = billItems.find(b => b.name === item.name);
-
-            if (existing) {
-                existing.qty = qty;
-                existing.total = qty * price;
-                showMessage(item.name + " updated ✅");
-            } else {
-                billItems.push({
-                    name: item.name,
-                    qty: qty,
-                    total: qty * price
-                });
-                showMessage(item.name + " added ✅");
-            }
-
-            renderBill();
-        }
-
-        function showMessage(msg) {
-            let div = document.createElement("div");
-            div.className = "toast";
-            div.innerText = msg;
-            document.body.appendChild(div);
-            setTimeout(() => div.remove(), 2000);
+            // Add custom work button
+            const addBtn = document.createElement("div");
+            addBtn.className = "svc-card";
+            addBtn.style.cssText = "border-style:dashed;border-color:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:120px;";
+            addBtn.onclick = addCustomItem;
+            addBtn.innerHTML = `
+    <div style="font-size:28px;color:var(--yellow);">+</div>
+    <div style="font-size:13px;font-weight:600;color:var(--yellow);">Add Custom Work</div>
+  `;
+            grid.appendChild(addBtn);
         }
 
         function addCustomItem() {
-            let name = document.getElementById("customName").value;
-            let price = parseInt(document.getElementById("customPrice").value);
+            customIdCounter++;
+            customItems.push({ id: customIdCounter, label: "", price: 0, qty: 1, inCart: false });
+            renderServices();
+            // Focus the new label input
+            setTimeout(() => {
+                const inp = document.getElementById("clabel-" + customIdCounter);
+                if (inp) inp.focus();
+            }, 50);
+        }
 
-            if (!name || !price) {
-                alert("Enter item name and price");
+        function removeCustomItem(id) {
+            customItems = customItems.filter(c => c.id !== id);
+            delete cart["c" + id];
+            renderServices();
+            updateBill();
+            toast("Custom item removed", true);
+        }
+
+        function syncCustomLabel(id) {
+            const ci = customItems.find(c => c.id === id);
+            if (ci) { ci.label = document.getElementById("clabel-" + id).value; }
+            if (ci && ci.inCart) { cart["c" + id].name = ci.label || "Custom Work"; updateBill(); }
+        }
+
+        function syncCustomCart(id) {
+            const ci = customItems.find(c => c.id === id);
+            if (!ci) return;
+            ci.price = parseInt(document.getElementById("cprice-" + id).value) || 0;
+            ci.qty = parseInt(document.getElementById("cqty-" + id).value) || 1;
+            if (ci.inCart) { cart["c" + id] = { name: ci.label || "Custom Work", price: ci.price, qty: ci.qty }; updateBill(); }
+        }
+
+        function toggleCustom(id) {
+            const ci = customItems.find(c => c.id === id);
+            if (!ci) return;
+            ci.price = parseInt(document.getElementById("cprice-" + id).value) || 0;
+            ci.qty = parseInt(document.getElementById("cqty-" + id).value) || 1;
+            ci.label = document.getElementById("clabel-" + id).value;
+            if (ci.inCart) {
+                delete cart["c" + id];
+                ci.inCart = false;
+                toast("Removed: " + (ci.label || "Custom Work"), true);
+            } else {
+                if (!ci.label.trim()) { toast("Enter work description first!", true); return; }
+                cart["c" + id] = { name: ci.label, price: ci.price, qty: ci.qty };
+                ci.inCart = true;
+                toast("Added: " + ci.label);
+            }
+            updateBill();
+            renderServices();
+        }
+
+        function toggleService(i) {
+            const price = parseInt(document.getElementById("price-" + i).value) || 0;
+            const qty = parseInt(document.getElementById("qty-" + i).value) || 1;
+            if (cart[i]) {
+                delete cart[i];
+                toast("Removed: " + services[i].name, true);
+            } else {
+                cart[i] = { name: services[i].name, price, qty };
+                toast("Added: " + services[i].name);
+            }
+            updateBill();
+            renderServices();
+        }
+
+        function updateBill() {
+            const tbody = document.getElementById("billBody");
+            const items = Object.values(cart);
+            let total = 0;
+
+            // Update info
+            document.getElementById("bName").textContent = document.getElementById("customerName").value || "—";
+            document.getElementById("bMobile").textContent = document.getElementById("mobile").value || "—";
+            document.getElementById("bBike").textContent = document.getElementById("bikeNumber").value || "—";
+            document.getElementById("bKm").textContent = document.getElementById("bikeKm").value || "—";
+            document.getElementById("bDate").textContent = new Date().toLocaleDateString("en-IN");
+
+            if (items.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3"><div class="bill-empty">No services added yet</div></td></tr>`;
+                document.getElementById("billTotal").textContent = "₹0";
                 return;
             }
 
-            items.push({ name, price });
-            renderItems();
-        }
-
-        function renderBill() {
-            let table = document.getElementById("billTable");
-            table.innerHTML = "<tr><th>Item</th><th>Qty</th><th>Total</th></tr>";
-            total = 0;
-
-            billItems.forEach(i => {
-                let row = table.insertRow();
-                row.insertCell(0).innerText = i.name;
-                row.insertCell(1).innerText = i.qty;
-                row.insertCell(2).innerText = "₹" + i.total;
-                total += i.total;
+            tbody.innerHTML = "";
+            items.forEach(item => {
+                const amount = item.price * item.qty;
+                total += amount;
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>₹${amount}</td>`;
+                tbody.appendChild(tr);
             });
 
-            document.getElementById("totalAmount").innerText = "₹" + total;
-        }
-
-        function generateBill() {
-            document.getElementById("billCustomer").innerText = document.getElementById("customerName").value;
-            document.getElementById("billMobile").innerText = document.getElementById("mobile").value;
-            document.getElementById("billBike").innerText = document.getElementById("bikeNumber").value;
-            document.getElementById("billKm").innerText = document.getElementById("bikeKm").value;
-            document.getElementById("billDate").innerText = new Date().toLocaleDateString();
-            document.getElementById("billNumber").innerText = billCounter++;
+            document.getElementById("billTotal").textContent = "₹" + total;
         }
 
         function printBill() {
-            generateBill();
-            window.print();
-        }
+            const items = Object.values(cart);
+            if (items.length === 0) { toast("Add services first!", true); return; }
 
-       function downloadExcel() {
-            let name = document.getElementById("customerName").value;
-            let mobile = document.getElementById("mobile").value;
+            const name = document.getElementById("customerName").value || "-";
+            const mobile = document.getElementById("mobile").value || "-";
+            const bike = document.getElementById("bikeNumber").value || "-";
+            const km = document.getElementById("bikeKm").value || "-";
+            const date = new Date().toLocaleDateString("en-IN");
 
-            if (!name || !mobile) {
-                alert("Please enter customer details");
-                return;
-            }
-
-            let csv = "Bill No,Customer Name,Mobile,Item,Qty,Total\n";
-
-            billItems.forEach(i => {
-                csv += `${billCounter},${name},${mobile},${i.name},${i.qty},${i.total}\n`;
+            let rows = "";
+            let total = 0;
+            items.forEach(it => {
+                const amt = it.price * it.qty;
+                total += amt;
+                rows += `<tr><td style="padding:2px 4px">${it.name}</td><td style="padding:2px 4px;text-align:center">${it.qty}</td><td style="padding:2px 4px;text-align:right">Rs.${amt}</td></tr>`;
             });
 
-            csv += `,,,,Total,${total}`;
+            const html = `
+    <div style="font-family:monospace;font-size:12px;color:#000;background:#fff">
+      <div style="text-align:center;font-size:16px;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:6px;margin-bottom:6px">DR VEHICLE CARE</div>
+      <div>Name: ${name}</div>
+      <div>Mobile: ${mobile}</div>
+      <div>Bike: ${bike} | KM: ${km}</div>
+      <div>Date: ${date}</div>
+      <hr style="border:none;border-top:1px dashed #000;margin:6px 0">
+      <table width="100%" style="border-collapse:collapse">
+        <tr><th style="text-align:left">Item</th><th>Qty</th><th style="text-align:right">Amt</th></tr>
+        ${rows}
+      </table>
+      <hr style="border:none;border-top:1px dashed #000;margin:6px 0">
+      <div style="text-align:right;font-size:14px;font-weight:bold">TOTAL: Rs.${total}</div>
+      <div style="text-align:center;margin-top:10px;font-size:11px">Thank You! Visit Again</div>
+    </div>`;
 
-            let blob = new Blob([csv], { type: "text/csv" });
-            let link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = name + "_bill.csv";  // file name with customer name
-            link.click();
+            const printArea = document.getElementById("printArea");
+            printArea.innerHTML = html;
+            printArea.style.display = "block";
+            saveBill(name, mobile, bike, total);
+            window.print();
+            printArea.style.display = "none";
         }
 
-        renderItems();
-    </script>
+        function saveBill(name, mobile, bike, total) {
+            const bill = { name, mobile, bike, total, date: new Date().toLocaleDateString("en-IN") };
+            const bills = JSON.parse(localStorage.getItem("drvc_bills") || "[]");
+            bills.push(bill);
+            localStorage.setItem("drvc_bills", JSON.stringify(bills));
+        }
 
+        function downloadCSV() {
+            const items = Object.values(cart);
+            if (!items.length) { toast("Nothing to export!", true); return; }
+            const name = document.getElementById("customerName").value;
+            const bike = document.getElementById("bikeNumber").value;
+            let csv = "Service,Qty,Amount\n";
+            let total = 0;
+            items.forEach(it => {
+                const amt = it.price * it.qty;
+                total += amt;
+                csv += `${it.name},${it.qty},${amt}\n`;
+            });
+            csv += `,,Total,${total}`;
+            const blob = new Blob([csv], { type: "text/csv" });
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = (name || "bill") + "_" + bike + ".csv";
+            a.click();
+            toast("Excel downloaded!");
+        }
+
+        function sendWhatsApp() {
+            const mobile = document.getElementById("mobile").value.trim();
+            if (!mobile || mobile.length < 10) { toast("Enter valid mobile number!", true); return; }
+            const items = Object.values(cart);
+            if (!items.length) { toast("Add services first!", true); return; }
+            const name = document.getElementById("customerName").value;
+            const bike = document.getElementById("bikeNumber").value;
+            let lines = `*DR VEHICLE CARE*%0A*Bill for ${name}*%0ABike: ${bike}%0A%0A`;
+            let total = 0;
+            items.forEach(it => {
+                const amt = it.price * it.qty;
+                total += amt;
+                lines += `• ${it.name} x${it.qty} = Rs.${amt}%0A`;
+            });
+            lines += `%0A*Total: Rs.${total}*%0AThank you!`;
+            window.open(`https://wa.me/91${mobile}?text=${lines}`);
+        }
+
+        function clearAll() {
+            cart = {};
+            customItems = [];
+            ["customerName", "mobile", "bikeNumber", "bikeKm"].forEach(id => document.getElementById(id).value = "");
+            updateBill();
+            renderServices();
+            toast("Cleared!");
+        }
+
+        function openMonthHistory() {
+            const bills = JSON.parse(localStorage.getItem("drvc_bills") || "[]");
+            const now = new Date();
+            const monthStr = now.toLocaleString("en-IN", { month: "long", year: "numeric" });
+
+            // Group by date for current month
+            const grouped = {};
+            let grandTotal = 0;
+            let billCount = 0;
+
+            bills.forEach(b => {
+                // Parse date: d/m/yyyy
+                const parts = b.date ? b.date.split("/") : [];
+                if (parts.length < 3) return;
+                const bMonth = parseInt(parts[1]) - 1;
+                const bYear = parseInt(parts[2]);
+                if (bMonth === now.getMonth() && bYear === now.getFullYear()) {
+                    if (!grouped[b.date]) grouped[b.date] = [];
+                    grouped[b.date].push(b);
+                    grandTotal += (b.total || 0);
+                    billCount++;
+                }
+            });
+
+            document.getElementById("modalTitle").textContent = monthStr;
+            const body = document.getElementById("modalBody");
+
+            if (!billCount) {
+                body.innerHTML = `<div style="text-align:center;color:var(--muted);padding:30px;">No bills this month</div>`;
+            } else {
+                // Summary card
+                let html = `
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+        <div style="background:#1a1a2a;border:1px solid #333;border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Total Bills</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:#60a5fa;">${billCount}</div>
+        </div>
+        <div style="background:#1a2a1a;border:1px solid #333;border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Month Revenue</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--green);">₹${grandTotal}</div>
+        </div>
+      </div>`;
+
+                // Daily breakdown
+                const sortedDates = Object.keys(grouped).sort((a, b) => {
+                    const pa = a.split("/"), pb = b.split("/");
+                    return new Date(pa[2], pa[1] - 1, pa[0]) - new Date(pb[2], pb[1] - 1, pb[0]);
+                });
+
+                sortedDates.forEach(date => {
+                    const dayBills = grouped[date];
+                    const dayTotal = dayBills.reduce((s, b) => s + (b.total || 0), 0);
+                    html += `
+        <div style="margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#252525;border-radius:8px;margin-bottom:6px;">
+            <span style="font-size:12px;font-weight:700;color:#aaa;letter-spacing:1px;">${date}</span>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;color:var(--yellow);">₹${dayTotal} · ${dayBills.length} bill${dayBills.length > 1 ? 's' : ''}</span>
+          </div>`;
+                    dayBills.forEach(b => {
+                        html += `<div class="history-item" style="margin-bottom:6px;">
+          <div>
+            <div class="h-name">${b.name || "—"}</div>
+            <div class="h-bike">${b.bike || ""} · ${b.mobile || ""}</div>
+          </div>
+          <div class="h-total">₹${b.total}</div>
+        </div>`;
+                    });
+                    html += `</div>`;
+                });
+
+                body.innerHTML = html;
+            }
+
+            document.getElementById("historyModal").classList.add("open");
+        }
+
+        function openHistory(type) {
+            const bills = JSON.parse(localStorage.getItem("drvc_bills") || "[]");
+            const today = new Date().toLocaleDateString("en-IN");
+            const d = new Date(); d.setDate(d.getDate() - 1);
+            const yesterday = d.toLocaleDateString("en-IN");
+            const target = type === "Today" ? today : yesterday;
+            const filtered = bills.filter(b => b.date === target);
+
+            document.getElementById("modalTitle").textContent = type + "'s Bills";
+            const body = document.getElementById("modalBody");
+            if (!filtered.length) {
+                body.innerHTML = `<div style="text-align:center;color:var(--muted);padding:30px;">No bills found for ${type.toLowerCase()}</div>`;
+            } else {
+                let total = 0;
+                body.innerHTML = filtered.map(b => {
+                    total += b.total || 0;
+                    return `<div class="history-item">
+        <div>
+          <div class="h-name">${b.name || "—"}</div>
+          <div class="h-bike">${b.bike || ""} · ${b.mobile || ""}</div>
+        </div>
+        <div class="h-total">₹${b.total}</div>
+      </div>`;
+                }).join("") + `<div style="text-align:right;padding:10px 4px;font-family:'Barlow Condensed',sans-serif;font-size:20px;color:var(--muted)">Day Total: <span style="color:var(--red2)">₹${total}</span></div>`;
+            }
+
+            document.getElementById("historyModal").classList.add("open");
+        }
+
+        function closeModal(e) {
+            if (e.target === document.getElementById("historyModal"))
+                document.getElementById("historyModal").classList.remove("open");
+        }
+
+        let toastTimer;
+        function toast(msg, isRed = false) {
+            const el = document.getElementById("toast");
+            el.textContent = msg;
+            el.className = "toast show" + (isRed ? " red" : "");
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => el.className = "toast", 2500);
+        }
+
+        // Live bill updates on input change
+        ["customerName", "mobile", "bikeNumber", "bikeKm"].forEach(id =>
+            document.getElementById(id).addEventListener("input", updateBill)
+        );
+
+        renderServices();
+        updateBill();
+    </script>
 </body>
 
 </html>
