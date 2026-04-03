@@ -35,7 +35,6 @@
             min-height: 100vh;
         }
 
-        /* ── HEADER ── */
         .header {
             background: linear-gradient(135deg, #900 0%, var(--red) 50%, var(--red2) 100%);
             padding: 18px 28px;
@@ -96,7 +95,6 @@
             background: rgba(255, 255, 255, .25);
         }
 
-        /* ── CONTAINER ── */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -112,7 +110,6 @@
             }
         }
 
-        /* ── SECTION ── */
         .section {
             background: var(--panel);
             border-radius: 14px;
@@ -134,7 +131,6 @@
             gap: 8px;
         }
 
-        /* ── CUSTOMER GRID ── */
         .cust-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -181,7 +177,6 @@
             color: #555;
         }
 
-        /* ── SERVICE GRID ── */
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -196,7 +191,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            transition: border-color .2s, transform .15s;
+            transition: border-color .2s;
             position: relative;
             overflow: hidden;
         }
@@ -267,7 +262,6 @@
             border: 1px solid var(--green);
         }
 
-        /* ── BILL PANEL ── */
         .bill-panel {
             position: sticky;
             top: 80px;
@@ -375,7 +369,6 @@
             color: var(--red2);
         }
 
-        /* ── ACTION BUTTONS ── */
         .actions {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -431,7 +424,6 @@
             grid-column: span 2;
         }
 
-        /* ── HISTORY DROPDOWN ── */
         .dropdown-overlay {
             display: none;
             position: fixed;
@@ -513,7 +505,6 @@
             color: var(--red2);
         }
 
-        /* ── TOAST ── */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -544,7 +535,6 @@
             border-color: var(--red2);
         }
 
-        /* ── PRINT ── */
         @media print {
             body * {
                 visibility: hidden !important;
@@ -567,7 +557,6 @@
             }
         }
 
-        /* scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -585,7 +574,6 @@
 
 <body>
 
-    <!-- HEADER -->
     <div class="header">
         <div class="logo">
             <span class="logo-icon">🔧</span>
@@ -602,54 +590,39 @@
     </div>
 
     <div class="container">
-        <!-- LEFT COLUMN -->
         <div>
-            <!-- Customer Details -->
             <div class="section">
                 <div class="section-title">👤 Customer Details</div>
                 <div class="cust-grid">
-                    <div class="field">
-                        <label>Customer Name</label>
-                        <input id="customerName" placeholder="e.g. Rahul Patil">
+                    <div class="field"><label>Customer Name</label><input id="customerName"
+                            placeholder="e.g. Rahul Patil"></div>
+                    <div class="field"><label>Mobile Number</label><input id="mobile" placeholder="e.g. 9876543210"
+                            maxlength="10" type="tel"></div>
+                    <div class="field"><label>Bike Number</label><input id="bikeNumber" placeholder="e.g. MH09 AB 1234">
                     </div>
-                    <div class="field">
-                        <label>Mobile Number</label>
-                        <input id="mobile" placeholder="e.g. 9876543210" maxlength="10" type="tel">
-                    </div>
-                    <div class="field">
-                        <label>Bike Number</label>
-                        <input id="bikeNumber" placeholder="e.g. MH09 AB 1234">
-                    </div>
-                    <div class="field">
-                        <label>Odometer (KM)</label>
-                        <input id="bikeKm" placeholder="e.g. 12500" type="number">
-                    </div>
+                    <div class="field"><label>Odometer (KM)</label><input id="bikeKm" placeholder="e.g. 12500"
+                            type="number"></div>
                 </div>
             </div>
-
-            <!-- Services -->
             <div class="section">
                 <div class="section-title">🛠 Services</div>
                 <div id="servicesGrid" class="services-grid"></div>
             </div>
         </div>
 
-        <!-- RIGHT COLUMN — BILL -->
         <div class="bill-panel">
             <div class="bill-box">
                 <div class="bill-header">
                     <div class="bill-shop-name">DR VEHICLE CARE</div>
                     <div class="bill-sub">Service Invoice</div>
                 </div>
-
-                <div class="bill-info" id="billInfo">
+                <div class="bill-info">
                     <div>Customer: <span id="bName">—</span></div>
                     <div>Mobile: <span id="bMobile">—</span></div>
                     <div>Bike No: <span id="bBike">—</span></div>
                     <div>KM: <span id="bKm">—</span></div>
                     <div>Date: <span id="bDate">—</span></div>
                 </div>
-
                 <table class="bill-items-table">
                     <thead>
                         <tr>
@@ -666,12 +639,10 @@
                         </tr>
                     </tbody>
                 </table>
-
                 <div class="bill-total-row">
                     <span class="bill-total-label">Total</span>
                     <span class="bill-total-amount" id="billTotal">₹0</span>
                 </div>
-
                 <div class="actions">
                     <button class="act-btn btn-print" onclick="printBill()">🖨 Print Bill</button>
                     <button class="act-btn btn-excel" onclick="downloadCSV()">📊 Excel</button>
@@ -682,7 +653,6 @@
         </div>
     </div>
 
-    <!-- HISTORY MODAL -->
     <div class="dropdown-overlay" id="historyModal" onclick="closeModal(event)">
         <div class="modal">
             <div class="modal-header">
@@ -694,13 +664,95 @@
         </div>
     </div>
 
-    <!-- TOAST -->
     <div class="toast" id="toast"></div>
-
-    <!-- PRINT AREA (hidden normally) -->
     <div id="printArea" style="display:none;"></div>
 
     <script>
+        // ── STORAGE HELPERS ──────────────────────────────────────────────────────────
+        // Uses window.storage (persistent) with localStorage as fallback
+
+        async function storageGet(key) {
+            try {
+                if (window.storage) {
+                    const result = await window.storage.get(key);
+                    return result ? JSON.parse(result.value) : null;
+                }
+            } catch (e) { }
+            try {
+                const v = localStorage.getItem(key);
+                return v ? JSON.parse(v) : null;
+            } catch (e) { return null; }
+        }
+
+        async function storageSet(key, value) {
+            try {
+                if (window.storage) {
+                    await window.storage.set(key, JSON.stringify(value));
+                    return;
+                }
+            } catch (e) { }
+            try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) { }
+        }
+
+        // ── BILL KEY FORMAT ──────────────────────────────────────────────────────────
+        // Key: "bills:YYYY-MM-DD"  Value: array of bill objects
+        // Each bill: { name, mobile, bike, km, total, items: [{name,price,qty}], ts }
+
+        function todayKey() {
+            const d = new Date();
+            return `bills:${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function dateKey(date) {
+            // date is a Date object
+            return `bills:${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        function formatDisplayDate(dateStr) {
+            // dateStr: "YYYY-MM-DD"
+            const [y, m, d] = dateStr.replace('bills:', '').split('-');
+            return `${d}/${m}/${y}`;
+        }
+
+        async function saveBill(name, mobile, bike, km, total, items) {
+            const key = todayKey();
+            let bills = await storageGet(key) || [];
+            bills.push({
+                name: name || '—',
+                mobile: mobile || '—',
+                bike: bike || '—',
+                km: km || '—',
+                total: total || 0,
+                items: items.map(i => ({ name: i.name, price: i.price, qty: i.qty })),
+                ts: Date.now()
+            });
+            await storageSet(key, bills);
+        }
+
+        async function loadBillsForKey(key) {
+            return await storageGet(key) || [];
+        }
+
+        async function getAllBillKeys() {
+            // List all keys starting with "bills:"
+            try {
+                if (window.storage) {
+                    const result = await window.storage.list('bills:');
+                    return result ? result.keys : [];
+                }
+            } catch (e) { }
+            // localStorage fallback: scan all keys
+            const keys = [];
+            try {
+                for (let i = 0; i < localStorage.length; i++) {
+                    const k = localStorage.key(i);
+                    if (k && k.startsWith('bills:')) keys.push(k);
+                }
+            } catch (e) { }
+            return keys;
+        }
+
+        // ── SERVICES ────────────────────────────────────────────────────────────────
         const services = [
             { name: "Engine Oil", price: 400 },
             { name: "Brake Cleaning", price: 150 },
@@ -716,65 +768,57 @@
         ];
 
         let cart = {};
-        let customItems = []; // array of {id, label, price, qty}
+        let customItems = [];
         let customIdCounter = 0;
 
         function renderServices() {
             const grid = document.getElementById("servicesGrid");
             grid.innerHTML = "";
 
-            // Regular services
             services.forEach((s, i) => {
                 const inCart = !!cart[i];
                 const div = document.createElement("div");
                 div.className = "svc-card" + (inCart ? " active" : "");
-                div.id = "card-" + i;
                 div.innerHTML = `
-      <div class="svc-name">${s.name}</div>
-      <div class="svc-inputs">
-        <input id="price-${i}" type="number" value="${s.price}" placeholder="Price ₹">
-        <input id="qty-${i}" type="number" value="1" min="1" placeholder="Qty">
-      </div>
-      <button class="svc-toggle ${inCart ? 'rem-btn' : 'add-btn'}" onclick="toggleService(${i})">
-        ${inCart ? '✓ Added — Remove' : '+ Add'}
-      </button>
-    `;
+            <div class="svc-name">${s.name}</div>
+            <div class="svc-inputs">
+                <input id="price-${i}" type="number" value="${inCart ? cart[i].price : s.price}" placeholder="Price ₹">
+                <input id="qty-${i}" type="number" value="${inCart ? cart[i].qty : 1}" min="1" placeholder="Qty">
+            </div>
+            <button class="svc-toggle ${inCart ? 'rem-btn' : 'add-btn'}" onclick="toggleService(${i})">
+                ${inCart ? '✓ Added — Remove' : '+ Add'}
+            </button>`;
                 grid.appendChild(div);
             });
 
-            // Custom work items
             customItems.forEach(ci => {
                 const div = document.createElement("div");
-                div.className = "svc-card custom-card" + (ci.inCart ? " active" : "");
-                div.id = "custom-card-" + ci.id;
+                div.className = "svc-card" + (ci.inCart ? " active" : "");
                 div.innerHTML = `
-      <div style="display:flex;align-items:center;gap:6px;">
-        <span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);font-weight:700;">✏ Custom</span>
-        <button onclick="removeCustomItem(${ci.id})" style="margin-left:auto;background:#2a1010;border:1px solid #aa3333;color:#ff6666;padding:2px 8px;border-radius:5px;font-size:11px;cursor:pointer;">✕ Delete</button>
-      </div>
-      <input id="clabel-${ci.id}" type="text" value="${ci.label}" placeholder="Work description…"
-        style="background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%;"
-        oninput="syncCustomLabel(${ci.id})" onfocus="this.style.borderColor='var(--yellow)'" onblur="this.style.borderColor='var(--border)'">
-      <div class="svc-inputs">
-        <input id="cprice-${ci.id}" type="number" value="${ci.price}" placeholder="Price ₹" oninput="syncCustomCart(${ci.id})">
-        <input id="cqty-${ci.id}" type="number" value="${ci.qty}" min="1" placeholder="Qty" oninput="syncCustomCart(${ci.id})">
-      </div>
-      <button class="svc-toggle ${ci.inCart ? 'rem-btn' : 'add-btn'}" onclick="toggleCustom(${ci.id})">
-        ${ci.inCart ? '✓ Added — Remove' : '+ Add'}
-      </button>
-    `;
+            <div style="display:flex;align-items:center;gap:6px;">
+                <span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--yellow);font-weight:700;">✏ Custom</span>
+                <button onclick="removeCustomItem(${ci.id})" style="margin-left:auto;background:#2a1010;border:1px solid #aa3333;color:#ff6666;padding:2px 8px;border-radius:5px;font-size:11px;cursor:pointer;">✕ Delete</button>
+            </div>
+            <input id="clabel-${ci.id}" type="text" value="${ci.label}" placeholder="Work description…"
+                style="background:var(--panel);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;width:100%;"
+                oninput="syncCustomLabel(${ci.id})"
+                onfocus="this.style.borderColor='var(--yellow)'"
+                onblur="this.style.borderColor='var(--border)'">
+            <div class="svc-inputs">
+                <input id="cprice-${ci.id}" type="number" value="${ci.price}" placeholder="Price ₹" oninput="syncCustomCart(${ci.id})">
+                <input id="cqty-${ci.id}" type="number" value="${ci.qty}" min="1" placeholder="Qty" oninput="syncCustomCart(${ci.id})">
+            </div>
+            <button class="svc-toggle ${ci.inCart ? 'rem-btn' : 'add-btn'}" onclick="toggleCustom(${ci.id})">
+                ${ci.inCart ? '✓ Added — Remove' : '+ Add'}
+            </button>`;
                 grid.appendChild(div);
             });
 
-            // Add custom work button
             const addBtn = document.createElement("div");
             addBtn.className = "svc-card";
             addBtn.style.cssText = "border-style:dashed;border-color:var(--yellow);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;min-height:120px;";
             addBtn.onclick = addCustomItem;
-            addBtn.innerHTML = `
-    <div style="font-size:28px;color:var(--yellow);">+</div>
-    <div style="font-size:13px;font-weight:600;color:var(--yellow);">Add Custom Work</div>
-  `;
+            addBtn.innerHTML = `<div style="font-size:28px;color:var(--yellow);">+</div><div style="font-size:13px;font-weight:600;color:var(--yellow);">Add Custom Work</div>`;
             grid.appendChild(addBtn);
         }
 
@@ -782,11 +826,7 @@
             customIdCounter++;
             customItems.push({ id: customIdCounter, label: "", price: 0, qty: 1, inCart: false });
             renderServices();
-            // Focus the new label input
-            setTimeout(() => {
-                const inp = document.getElementById("clabel-" + customIdCounter);
-                if (inp) inp.focus();
-            }, 50);
+            setTimeout(() => { const inp = document.getElementById("clabel-" + customIdCounter); if (inp) inp.focus(); }, 50);
         }
 
         function removeCustomItem(id) {
@@ -799,8 +839,9 @@
 
         function syncCustomLabel(id) {
             const ci = customItems.find(c => c.id === id);
-            if (ci) { ci.label = document.getElementById("clabel-" + id).value; }
-            if (ci && ci.inCart) { cart["c" + id].name = ci.label || "Custom Work"; updateBill(); }
+            if (!ci) return;
+            ci.label = document.getElementById("clabel-" + id).value;
+            if (ci.inCart) { cart["c" + id].name = ci.label || "Custom Work"; updateBill(); }
         }
 
         function syncCustomCart(id) {
@@ -818,8 +859,7 @@
             ci.qty = parseInt(document.getElementById("cqty-" + id).value) || 1;
             ci.label = document.getElementById("clabel-" + id).value;
             if (ci.inCart) {
-                delete cart["c" + id];
-                ci.inCart = false;
+                delete cart["c" + id]; ci.inCart = false;
                 toast("Removed: " + (ci.label || "Custom Work"), true);
             } else {
                 if (!ci.label.trim()) { toast("Enter work description first!", true); return; }
@@ -827,22 +867,15 @@
                 ci.inCart = true;
                 toast("Added: " + ci.label);
             }
-            updateBill();
-            renderServices();
+            updateBill(); renderServices();
         }
 
         function toggleService(i) {
             const price = parseInt(document.getElementById("price-" + i).value) || 0;
             const qty = parseInt(document.getElementById("qty-" + i).value) || 1;
-            if (cart[i]) {
-                delete cart[i];
-                toast("Removed: " + services[i].name, true);
-            } else {
-                cart[i] = { name: services[i].name, price, qty };
-                toast("Added: " + services[i].name);
-            }
-            updateBill();
-            renderServices();
+            if (cart[i]) { delete cart[i]; toast("Removed: " + services[i].name, true); }
+            else { cart[i] = { name: services[i].name, price, qty }; toast("Added: " + services[i].name); }
+            updateBill(); renderServices();
         }
 
         function updateBill() {
@@ -850,12 +883,14 @@
             const items = Object.values(cart);
             let total = 0;
 
-            // Update info
+            const now = new Date();
+            const displayDate = now.toLocaleDateString("en-IN");
+
             document.getElementById("bName").textContent = document.getElementById("customerName").value || "—";
             document.getElementById("bMobile").textContent = document.getElementById("mobile").value || "—";
             document.getElementById("bBike").textContent = document.getElementById("bikeNumber").value || "—";
             document.getElementById("bKm").textContent = document.getElementById("bikeKm").value || "—";
-            document.getElementById("bDate").textContent = new Date().toLocaleDateString("en-IN");
+            document.getElementById("bDate").textContent = displayDate;
 
             if (items.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="3"><div class="bill-empty">No services added yet</div></td></tr>`;
@@ -871,13 +906,12 @@
                 tr.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>₹${amount}</td>`;
                 tbody.appendChild(tr);
             });
-
             document.getElementById("billTotal").textContent = "₹" + total;
         }
 
-        function printBill() {
+        async function printBill() {
             const items = Object.values(cart);
-            if (items.length === 0) { toast("Add services first!", true); return; }
+            if (!items.length) { toast("Add services first!", true); return; }
 
             const name = document.getElementById("customerName").value || "-";
             const mobile = document.getElementById("mobile").value || "-";
@@ -885,8 +919,7 @@
             const km = document.getElementById("bikeKm").value || "-";
             const date = new Date().toLocaleDateString("en-IN");
 
-            let rows = "";
-            let total = 0;
+            let rows = "", total = 0;
             items.forEach(it => {
                 const amt = it.price * it.qty;
                 total += amt;
@@ -894,54 +927,46 @@
             });
 
             const html = `
-    <div style="font-family:monospace;font-size:12px;color:#000;background:#fff">
-      <div style="text-align:center;font-size:16px;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:6px;margin-bottom:6px">DR VEHICLE CARE</div>
-      <div>Name: ${name}</div>
-      <div>Mobile: ${mobile}</div>
-      <div>Bike: ${bike} | KM: ${km}</div>
-      <div>Date: ${date}</div>
-      <hr style="border:none;border-top:1px dashed #000;margin:6px 0">
-      <table width="100%" style="border-collapse:collapse">
-        <tr><th style="text-align:left">Item</th><th>Qty</th><th style="text-align:right">Amt</th></tr>
-        ${rows}
-      </table>
-      <hr style="border:none;border-top:1px dashed #000;margin:6px 0">
-      <div style="text-align:right;font-size:14px;font-weight:bold">TOTAL: Rs.${total}</div>
-      <div style="text-align:center;margin-top:10px;font-size:11px">Thank You! Visit Again</div>
-    </div>`;
+        <div style="font-family:monospace;font-size:12px;color:#000;background:#fff">
+            <div style="text-align:center;font-size:16px;font-weight:bold;border-bottom:1px dashed #000;padding-bottom:6px;margin-bottom:6px">DR VEHICLE CARE</div>
+            <div>Name: ${name}</div>
+            <div>Mobile: ${mobile}</div>
+            <div>Bike: ${bike} | KM: ${km}</div>
+            <div>Date: ${date}</div>
+            <hr style="border:none;border-top:1px dashed #000;margin:6px 0">
+            <table width="100%" style="border-collapse:collapse">
+                <tr><th style="text-align:left">Item</th><th>Qty</th><th style="text-align:right">Amt</th></tr>
+                ${rows}
+            </table>
+            <hr style="border:none;border-top:1px dashed #000;margin:6px 0">
+            <div style="text-align:right;font-size:14px;font-weight:bold">TOTAL: Rs.${total}</div>
+            <div style="text-align:center;margin-top:10px;font-size:11px">Thank You! Visit Again</div>
+        </div>`;
 
-            const printArea = document.getElementById("printArea");
-            printArea.innerHTML = html;
-            printArea.style.display = "block";
-            saveBill(name, mobile, bike, total);
+            document.getElementById("printArea").innerHTML = html;
+            document.getElementById("printArea").style.display = "block";
+
+            // Save bill BEFORE printing
+            await saveBill(name, mobile, bike, km, total, items);
+            toast("Bill saved! ✓");
+
             window.print();
-            printArea.style.display = "none";
-        }
-
-        function saveBill(name, mobile, bike, total) {
-            const bill = { name, mobile, bike, total, date: new Date().toLocaleDateString("en-IN") };
-            const bills = JSON.parse(localStorage.getItem("drvc_bills") || "[]");
-            bills.push(bill);
-            localStorage.setItem("drvc_bills", JSON.stringify(bills));
+            document.getElementById("printArea").style.display = "none";
         }
 
         function downloadCSV() {
             const items = Object.values(cart);
             if (!items.length) { toast("Nothing to export!", true); return; }
-            const name = document.getElementById("customerName").value;
-            const bike = document.getElementById("bikeNumber").value;
+            const name = document.getElementById("customerName").value || "customer";
+            const bike = document.getElementById("bikeNumber").value || "bike";
             let csv = "Service,Qty,Amount\n";
             let total = 0;
-            items.forEach(it => {
-                const amt = it.price * it.qty;
-                total += amt;
-                csv += `${it.name},${it.qty},${amt}\n`;
-            });
+            items.forEach(it => { const amt = it.price * it.qty; total += amt; csv += `${it.name},${it.qty},${amt}\n`; });
             csv += `,,Total,${total}`;
             const blob = new Blob([csv], { type: "text/csv" });
             const a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = (name || "bill") + "_" + bike + ".csv";
+            a.download = name + "_" + bike + ".csv";
             a.click();
             toast("Excel downloaded!");
         }
@@ -955,126 +980,128 @@
             const bike = document.getElementById("bikeNumber").value;
             let lines = `*DR VEHICLE CARE*%0A*Bill for ${name}*%0ABike: ${bike}%0A%0A`;
             let total = 0;
-            items.forEach(it => {
-                const amt = it.price * it.qty;
-                total += amt;
-                lines += `• ${it.name} x${it.qty} = Rs.${amt}%0A`;
-            });
+            items.forEach(it => { const amt = it.price * it.qty; total += amt; lines += `• ${it.name} x${it.qty} = Rs.${amt}%0A`; });
             lines += `%0A*Total: Rs.${total}*%0AThank you!`;
             window.open(`https://wa.me/91${mobile}?text=${lines}`);
         }
 
         function clearAll() {
-            cart = {};
-            customItems = [];
+            cart = {}; customItems = [];
             ["customerName", "mobile", "bikeNumber", "bikeKm"].forEach(id => document.getElementById(id).value = "");
-            updateBill();
-            renderServices();
+            updateBill(); renderServices();
             toast("Cleared!");
         }
 
-        function openMonthHistory() {
-            const bills = JSON.parse(localStorage.getItem("drvc_bills") || "[]");
-            const now = new Date();
-            const monthStr = now.toLocaleString("en-IN", { month: "long", year: "numeric" });
+        // ── HISTORY ──────────────────────────────────────────────────────────────────
 
-            // Group by date for current month
-            const grouped = {};
-            let grandTotal = 0;
-            let billCount = 0;
+        async function openHistory(type) {
+            const today = new Date();
+            let targetDate = new Date(today);
+            if (type === 'Yesterday') targetDate.setDate(targetDate.getDate() - 1);
 
-            bills.forEach(b => {
-                // Parse date: d/m/yyyy
-                const parts = b.date ? b.date.split("/") : [];
-                if (parts.length < 3) return;
-                const bMonth = parseInt(parts[1]) - 1;
-                const bYear = parseInt(parts[2]);
-                if (bMonth === now.getMonth() && bYear === now.getFullYear()) {
-                    if (!grouped[b.date]) grouped[b.date] = [];
-                    grouped[b.date].push(b);
-                    grandTotal += (b.total || 0);
-                    billCount++;
-                }
-            });
-
-            document.getElementById("modalTitle").textContent = monthStr;
-            const body = document.getElementById("modalBody");
-
-            if (!billCount) {
-                body.innerHTML = `<div style="text-align:center;color:var(--muted);padding:30px;">No bills this month</div>`;
-            } else {
-                // Summary card
-                let html = `
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
-        <div style="background:#1a1a2a;border:1px solid #333;border-radius:10px;padding:14px;text-align:center;">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Total Bills</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:#60a5fa;">${billCount}</div>
-        </div>
-        <div style="background:#1a2a1a;border:1px solid #333;border-radius:10px;padding:14px;text-align:center;">
-          <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Month Revenue</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--green);">₹${grandTotal}</div>
-        </div>
-      </div>`;
-
-                // Daily breakdown
-                const sortedDates = Object.keys(grouped).sort((a, b) => {
-                    const pa = a.split("/"), pb = b.split("/");
-                    return new Date(pa[2], pa[1] - 1, pa[0]) - new Date(pb[2], pb[1] - 1, pb[0]);
-                });
-
-                sortedDates.forEach(date => {
-                    const dayBills = grouped[date];
-                    const dayTotal = dayBills.reduce((s, b) => s + (b.total || 0), 0);
-                    html += `
-        <div style="margin-bottom:12px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#252525;border-radius:8px;margin-bottom:6px;">
-            <span style="font-size:12px;font-weight:700;color:#aaa;letter-spacing:1px;">${date}</span>
-            <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;color:var(--yellow);">₹${dayTotal} · ${dayBills.length} bill${dayBills.length > 1 ? 's' : ''}</span>
-          </div>`;
-                    dayBills.forEach(b => {
-                        html += `<div class="history-item" style="margin-bottom:6px;">
-          <div>
-            <div class="h-name">${b.name || "—"}</div>
-            <div class="h-bike">${b.bike || ""} · ${b.mobile || ""}</div>
-          </div>
-          <div class="h-total">₹${b.total}</div>
-        </div>`;
-                    });
-                    html += `</div>`;
-                });
-
-                body.innerHTML = html;
-            }
-
-            document.getElementById("historyModal").classList.add("open");
-        }
-
-        function openHistory(type) {
-            const bills = JSON.parse(localStorage.getItem("drvc_bills") || "[]");
-            const today = new Date().toLocaleDateString("en-IN");
-            const d = new Date(); d.setDate(d.getDate() - 1);
-            const yesterday = d.toLocaleDateString("en-IN");
-            const target = type === "Today" ? today : yesterday;
-            const filtered = bills.filter(b => b.date === target);
+            const key = dateKey(targetDate);
+            const bills = await loadBillsForKey(key);
+            const displayDate = formatDisplayDate(key);
 
             document.getElementById("modalTitle").textContent = type + "'s Bills";
             const body = document.getElementById("modalBody");
-            if (!filtered.length) {
-                body.innerHTML = `<div style="text-align:center;color:var(--muted);padding:30px;">No bills found for ${type.toLowerCase()}</div>`;
+
+            if (!bills.length) {
+                body.innerHTML = `<div style="text-align:center;color:var(--muted);padding:30px;">No bills for ${type.toLowerCase()} (${displayDate})</div>`;
             } else {
                 let total = 0;
-                body.innerHTML = filtered.map(b => {
+                body.innerHTML = bills.map(b => {
                     total += b.total || 0;
                     return `<div class="history-item">
-        <div>
-          <div class="h-name">${b.name || "—"}</div>
-          <div class="h-bike">${b.bike || ""} · ${b.mobile || ""}</div>
-        </div>
-        <div class="h-total">₹${b.total}</div>
-      </div>`;
+                <div>
+                    <div class="h-name">${b.name}</div>
+                    <div class="h-bike">${b.bike} · ${b.mobile}</div>
+                </div>
+                <div class="h-total">₹${b.total}</div>
+            </div>`;
                 }).join("") + `<div style="text-align:right;padding:10px 4px;font-family:'Barlow Condensed',sans-serif;font-size:20px;color:var(--muted)">Day Total: <span style="color:var(--red2)">₹${total}</span></div>`;
             }
+            document.getElementById("historyModal").classList.add("open");
+        }
 
+        async function openMonthHistory() {
+            const now = new Date();
+            const thisYear = now.getFullYear();
+            const thisMonth = now.getMonth();
+
+            // Get all bill keys
+            const keys = await getAllBillKeys();
+
+            // Filter keys for this month: "bills:YYYY-MM-DD"
+            const monthKeys = keys.filter(k => {
+                const parts = k.replace('bills:', '').split('-');
+                if (parts.length < 3) return false;
+                return parseInt(parts[0]) === thisYear && parseInt(parts[1]) - 1 === thisMonth;
+            });
+
+            const monthStr = now.toLocaleString("en-IN", { month: "long", year: "numeric" });
+            document.getElementById("modalTitle").textContent = monthStr;
+            const body = document.getElementById("modalBody");
+
+            // Load all bills for this month
+            let allBills = [];
+            for (const key of monthKeys) {
+                const bills = await loadBillsForKey(key);
+                bills.forEach(b => allBills.push({ ...b, _key: key }));
+            }
+
+            if (!allBills.length) {
+                body.innerHTML = `<div style="text-align:center;color:var(--muted);padding:30px;">No bills this month</div>`;
+                document.getElementById("historyModal").classList.add("open");
+                return;
+            }
+
+            const grandTotal = allBills.reduce((s, b) => s + (b.total || 0), 0);
+            const billCount = allBills.length;
+
+            // Group by date key
+            const grouped = {};
+            allBills.forEach(b => {
+                if (!grouped[b._key]) grouped[b._key] = [];
+                grouped[b._key].push(b);
+            });
+
+            let html = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;">
+            <div style="background:#1a1a2a;border:1px solid #333;border-radius:10px;padding:14px;text-align:center;">
+                <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Total Bills</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:#60a5fa;">${billCount}</div>
+            </div>
+            <div style="background:#1a2a1a;border:1px solid #333;border-radius:10px;padding:14px;text-align:center;">
+                <div style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;">Month Revenue</div>
+                <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--green);">₹${grandTotal}</div>
+            </div>
+        </div>`;
+
+            const sortedKeys = Object.keys(grouped).sort();
+            sortedKeys.forEach(key => {
+                const dayBills = grouped[key];
+                const dayTotal = dayBills.reduce((s, b) => s + (b.total || 0), 0);
+                const displayDate = formatDisplayDate(key);
+                html += `
+            <div style="margin-bottom:12px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#252525;border-radius:8px;margin-bottom:6px;">
+                    <span style="font-size:12px;font-weight:700;color:#aaa;letter-spacing:1px;">${displayDate}</span>
+                    <span style="font-family:'Barlow Condensed',sans-serif;font-size:16px;color:var(--yellow);">₹${dayTotal} · ${dayBills.length} bill${dayBills.length > 1 ? 's' : ''}</span>
+                </div>`;
+                dayBills.forEach(b => {
+                    html += `<div class="history-item" style="margin-bottom:6px;">
+                <div>
+                    <div class="h-name">${b.name}</div>
+                    <div class="h-bike">${b.bike} · ${b.mobile}</div>
+                </div>
+                <div class="h-total">₹${b.total}</div>
+            </div>`;
+                });
+                html += `</div>`;
+            });
+
+            body.innerHTML = html;
             document.getElementById("historyModal").classList.add("open");
         }
 
@@ -1092,7 +1119,6 @@
             toastTimer = setTimeout(() => el.className = "toast", 2500);
         }
 
-        // Live bill updates on input change
         ["customerName", "mobile", "bikeNumber", "bikeKm"].forEach(id =>
             document.getElementById(id).addEventListener("input", updateBill)
         );
